@@ -2,6 +2,9 @@
 
 devtaskspace is a self-hosted operations workspace for builders who want one place to manage tasks, domain renewals, subscriptions, planning notes, collections, blog drafts, and email alerts.
 
+<img width="1335" height="658" alt="Screenshot 2026-03-25 at 7 52 05 PM" src="https://github.com/user-attachments/assets/2fbcc729-46f3-4337-843d-e466c1097c14" />
+
+
 The project is now structured to be contributor-friendly and open-source-ready:
 
 - App Router + TypeScript + Tailwind
