@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #F7F7F5;
+  --card: #FFFFFF;
+  --border: #E8E8E4;
+  --text: #1C1C1E;
+  --muted: #8C8C8C;
+  --accent: #1C1C1E;
+  --shadow-soft: 0 1px 2px rgba(0,0,0,0.04), 0 6px 16px rgba(0,0,0,0.03);
+  --shadow-corner: 2px 3px 0 rgba(16, 24, 40, 0.14);
+  --shadow-corner-strong: 3px 4px 0 rgba(16, 24, 40, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D1D1D1; border-radius: 10px; }
+
+/* Button base */
+.btn {
+  @apply inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-md border cursor-pointer select-none transition-all duration-150;
+  box-shadow: var(--shadow-corner);
+  transform: translate(0, 0);
+}
+.btn:active {
+  box-shadow: 1px 1px 0 rgba(16, 24, 40, 0.14);
+  transform: translate(1px, 1px);
+}
+.btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+}
+.btn-default {
+  @apply bg-white border-gray-200 text-gray-700 hover:bg-gray-50;
+}
+.btn-primary {
+  @apply bg-gray-900 border-gray-900 text-white hover:bg-gray-800;
+  box-shadow: var(--shadow-corner-strong);
+}
+.btn-danger {
+  @apply bg-white border-red-200 text-red-600 hover:bg-red-50;
+}
+.btn-success {
+  @apply bg-white border-green-200 text-green-600 hover:bg-green-50;
+}
+.btn-lg {
+  @apply px-5 py-2.5 text-base;
+}
+.btn-sm {
+  @apply px-2.5 py-1.5 text-xs;
+}
+
+/* Card */
+.card {
+  @apply bg-white rounded-xl border border-gray-100;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Input */
+.input {
+  @apply w-full px-3.5 py-2.5 text-[15px] rounded-md border border-gray-200 bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-300 transition-all;
+  box-shadow: inset 0 1px 0 rgba(0,0,0,0.02);
+}
+
+/* Label */
+.label {
+  @apply block text-sm font-medium text-gray-600 mb-1.5;
+}
+
+/* Badge */
+.badge {
+  @apply inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium border;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+}
+
+/* Sidebar active state */
+.nav-item {
+  @apply flex items-center gap-2.5 px-3 py-2.5 rounded-md text-[15px] text-gray-500 hover:bg-gray-50 hover:text-gray-800 cursor-pointer transition-colors;
+}
+.nav-item.active {
+  @apply bg-gray-100 text-gray-900 font-medium border border-gray-200;
+}
+
+/* Section heading */
+.section-title {
+  @apply text-xs font-semibold text-gray-400 uppercase tracking-widest;
+}
+
+/* Table */
+.table-row {
+  @apply border-b border-gray-100 last:border-0;
+}
