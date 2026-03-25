@@ -1,6 +1,6 @@
-# Stacker
+# Devtaskspace
 
-Stacker is a self-hosted operations workspace for builders who want one place to manage tasks, domain renewals, subscriptions, planning notes, collections, blog drafts, and email alerts.
+devtaskspace is a self-hosted operations workspace for builders who want one place to manage tasks, domain renewals, subscriptions, planning notes, collections, blog drafts, and email alerts.
 
 The project is now structured to be contributor-friendly and open-source-ready:
 
@@ -10,7 +10,7 @@ The project is now structured to be contributor-friendly and open-source-ready:
 - Local-first modules for lightweight personal workflows
 - Repo quality checks for type safety, linting, and production builds
 
-## What Stacker Covers
+## What devtaskspace Covers
 
 | Area | Purpose |
 | --- | --- |
@@ -54,7 +54,7 @@ AUTH_PASSWORD=change-this-password
 # Email
 RESEND_API_KEY=re_...
 ALERT_EMAIL=you@example.com
-FROM_EMAIL=Stacker <alerts@yourdomain.com>
+FROM_EMAIL=devtaskspace <alerts@yourdomain.com>
 
 # Data sync
 SUPABASE_URL=https://your-project.supabase.co
