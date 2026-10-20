@@ -124,6 +124,8 @@ If you plan to publish this project publicly, add a license before calling it fu
 
 ## Anas HQ (local Mac app)
 
+![Anas HQ Mac app](docs/anas-hq.png)
+
 A local-first version of the workspace that runs entirely on your Mac: tasks, goals and habits, a Spin wheel that picks your next habit, notes and journal, ideas, documents, domains, subscriptions, revenue and spending.
 
 - `server.js`: Node 22+ server on port 4777 using Node's built-in SQLite (no npm install). Every change is logged to a `history` table, with a JSON backup every 6 hours.
