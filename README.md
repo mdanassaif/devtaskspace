@@ -1,138 +1,78 @@
 # Devtaskspace
 
-devtaskspace is a self-hosted operations workspace for builders who want one place to manage tasks, domain renewals, subscriptions, planning notes, collections, blog drafts, and email alerts.
+One place to run your life and your products: tasks, goals and habits, a spin wheel that picks what to work on next, notes, documents, revenue, spending, subscriptions and domains. It runs locally on your Mac, and Claude can read and update it for you.
 
-<img width="1335" height="658" alt="Screenshot 2026-03-25 at 7 52 05 PM" src="https://github.com/user-attachments/assets/2fbcc729-46f3-4337-843d-e466c1097c14" />
+![Devtaskspace Mac app](docs/anas-hq.png)
 
+## Features
 
-The project is now structured to be contributor-friendly and open-source-ready:
-
-- App Router + TypeScript + Tailwind
-- Signed cookie auth with protected API routes
-- Supabase-backed sync for shared operational data
-- Local-first modules for lightweight personal workflows
-- Repo quality checks for type safety, linting, and production builds
-
-## What devtaskspace Covers
-
-| Area | Purpose |
+| Section | What it does |
 | --- | --- |
-| Overview | Daily snapshot of active work, renewals, billing, and shortcuts |
-| Tasks | Track work with status, priority, due dates, tags, and notifications |
-| Domains | Watch expirations, registrars, cost, and auto-renew status |
-| Subscriptions | Monitor recurring spend and upcoming billing |
-| Planning | Capture meetings, writing, reading, and coding plans |
-| Collections | Organize links and references into reusable groups |
-| Blog | Draft and manage lightweight content ideas and posts |
-| Email Logs | Review sent alerts and resend when needed |
-| Settings | Configure integrations and delivery defaults |
+| Today | Due and overdue tasks, renewals and a daily snapshot |
+| Tasks | Quick add with natural dates (“fri”, “in 3d”), priorities, repeats, subtasks, tags |
+| Goals | Goals with a number to reach, plus daily habits and promises with streaks |
+| Spin | A wheel of today's habits and to-dos. Spin, do what it lands on, tick it off. Habits come back tomorrow, to-dos finish for good, Undo if you change your mind |
+| Notes | Notes and a daily journal that saves as you type |
+| Ideas | Weekend plans, app, article and video ideas |
+| Documents | A vault for IDs, contracts and invoices, with expiry reminders |
+| Revenue | Income by product, with automatic Dodo Payments sync |
+| Spending | Monthly spending you log by hand |
+| Subscriptions | Monthly and yearly burn, next charge, biggest cost |
+| Domains | Expiry dates, registrars, renewal costs and whether each site is live |
 
-## Tech Stack
+There's also a menu bar icon with your due-task count, a dock badge and keyboard shortcuts (⌘1–⌘9 for sections, ⌘N for new).
 
-- Next.js 14
-- React 18
-- TypeScript
-- Tailwind CSS
-- Supabase
-- Resend
+## How it works
 
-## Local Setup
+```text
+server.js          Node 22+ server on localhost:4777, built-in SQLite, no npm install
+mcp.js             MCP server: Claude can list, add, update and delete records
+mac/Sources/       Native SwiftUI app (a client of the local server)
+public/index.html  The original web version, served at http://localhost:4777
+setup.sh           One-time setup: starts the server at login, connects Claude
+```
+
+- **Your data stays on your Mac.** Everything lives in `data/anashq.db`, which is gitignored along with keys, logs and the documents vault.
+- **Nothing gets lost.** Every change, whether from you or Claude, is written to a `history` table with before and after values, and a full JSON backup runs every 6 hours.
+- **Live updates.** The app listens for server events, so changes made from Claude appear right away.
+
+## Setup
+
+Needs macOS 14+, Node 22+ and the Xcode command line tools.
+
+```bash
+git clone https://github.com/mdanassaif/devtaskspace.git
+cd devtaskspace
+bash setup.sh        # starts the server at login, registers the MCP server with Claude
+bash mac/build.sh    # builds the Mac app into ~/Applications
+```
+
+Optional: put `DODO_API_KEY=...` in `data/.env` to sync revenue from Dodo Payments every 15 minutes.
+
+| Command | What it does |
+| --- | --- |
+| `launchctl kickstart -k gui/$(id -u)/com.anashq.server` | Restart the server |
+| `launchctl bootout gui/$(id -u)/com.anashq.server` | Stop it for good |
+| `data/server.log` | Server log |
+
+## Using it from Claude
+
+After `setup.sh`, Claude Code and the Claude desktop app get these tools: `hq_overview`, `hq_list`, `hq_add`, `hq_update`, `hq_delete`, `hq_history`.
+
+Just ask, for example:
+
+- “Add a task to renew my domain on Friday, high priority”
+- “What renews this month?”
+- “Add a daily habit: read for 20 minutes”
+
+## Web version (Next.js)
+
+The repo also contains the earlier hosted version in `src/` and `server/`: Next.js 14, Supabase sync, Resend email alerts and signed cookie auth.
 
 ```bash
 npm install
-cp .env.example .env.local
-npm run dev
+cp .env.example .env.local   # fill in AUTH_*, RESEND_*, SUPABASE_* values
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
-
-## Environment Variables
-
-```env
-# Authentication
-AUTH_SECRET=replace-with-a-long-random-string
-AUTH_USERNAME=admin
-AUTH_PASSWORD=change-this-password
-
-# Email
-RESEND_API_KEY=re_...
-ALERT_EMAIL=you@example.com
-FROM_EMAIL=devtaskspace <alerts@yourdomain.com>
-
-# Data sync
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-```
-
-Notes:
-
-- Wrap `AUTH_PASSWORD` in quotes if it contains `#`, spaces, or shell-sensitive characters.
-- Resend values can also be managed from the in-app settings screen.
-- `AUTH_SECRET` should be unique per deployment.
-
-## Database Setup
-
-1. Create a Supabase project.
-2. Run the SQL in [`server/supabase/schema.sql`](/Users/mohdkhan/Downloads/files/server/supabase/schema.sql).
-3. Add your Supabase credentials to `.env.local`.
-4. Restart the dev server.
-
-Current shared resources:
-
-- Tasks
-- Domains
-- Subscriptions
-
-Planning, collections, and blog content remain local-first.
-
-## Quality Checks
-
-```bash
-npm run typecheck
-npm run lint
-npm run build
-```
-
-Or run the full verification suite:
-
-```bash
-npm run check
-```
-
-## Project Structure
-
-```text
-src/app                 App Router pages and API routes
-src/components          Shared UI building blocks
-src/hooks               Local and synced collection hooks
-src/lib                 Auth, helpers, sync, and integration utilities
-server/supabase         Schema and backend setup assets
-```
-
-## Contributing
-
-Contributions are welcome. Start with [`CONTRIBUTING.md`](/Users/mohdkhan/Downloads/files/CONTRIBUTING.md) for setup and expectations.
-
-If you plan to publish this project publicly, add a license before calling it fully open source.
-
-## Roadmap Ideas
-
-- Team workspaces and multi-user roles
-- Import/export flows for operational data
-- Better audit history for synced changes
-- Public docs site and example deployment guides
-
-## Anas HQ (local Mac app)
-
-![Anas HQ Mac app](docs/anas-hq.png)
-
-A local-first version of the workspace that runs entirely on your Mac: tasks, goals and habits, a Spin wheel that picks your next habit, notes and journal, ideas, documents, domains, subscriptions, revenue and spending.
-
-- `server.js`: Node 22+ server on port 4777 using Node's built-in SQLite (no npm install). Every change is logged to a `history` table, with a JSON backup every 6 hours.
-- `mcp.js`: MCP server so Claude can read and update the dashboard (`hq_overview`, `hq_list`, `hq_add`, `hq_update`, `hq_delete`, `hq_history`).
-- `mac/`: native SwiftUI app with a menu bar icon. Build and install with `bash mac/build.sh`.
-- `public/index.html`: the original web page, served at http://localhost:4777.
-
-Setup: `bash setup.sh` installs a launchd agent for the server and registers the MCP server with Claude Code and Claude Desktop.
-
-Your data stays in `data/` (gitignored) and never leaves your Mac.
+For the database, create a Supabase project and run `server/supabase/schema.sql`. Run `npm run check` for type checks, lint and build. See [CONTRIBUTING.md](CONTRIBUTING.md) to contribute.
