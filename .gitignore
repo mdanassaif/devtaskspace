@@ -8,3 +8,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+
+# Anas HQ: personal data (database, history, keys, documents vault, logs). Never commit.
+data/
+*.db
+*.db-shm
+*.db-wal
+.env
+*.env
+*.log
+mac/build/

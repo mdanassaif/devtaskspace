@@ -121,3 +121,16 @@ If you plan to publish this project publicly, add a license before calling it fu
 - Import/export flows for operational data
 - Better audit history for synced changes
 - Public docs site and example deployment guides
+
+## Anas HQ (local Mac app)
+
+A local-first version of the workspace that runs entirely on your Mac: tasks, goals and habits, a Spin wheel that picks your next habit, notes and journal, ideas, documents, domains, subscriptions, revenue and spending.
+
+- `server.js`: Node 22+ server on port 4777 using Node's built-in SQLite (no npm install). Every change is logged to a `history` table, with a JSON backup every 6 hours.
+- `mcp.js`: MCP server so Claude can read and update the dashboard (`hq_overview`, `hq_list`, `hq_add`, `hq_update`, `hq_delete`, `hq_history`).
+- `mac/`: native SwiftUI app with a menu bar icon. Build and install with `bash mac/build.sh`.
+- `public/index.html`: the original web page, served at http://localhost:4777.
+
+Setup: `bash setup.sh` installs a launchd agent for the server and registers the MCP server with Claude Code and Claude Desktop.
+
+Your data stays in `data/` (gitignored) and never leaves your Mac.
