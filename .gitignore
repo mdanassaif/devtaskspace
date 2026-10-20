@@ -1,0 +1,13 @@
+# Personal data: database, history, keys, documents vault, logs. Never commit.
+data/
+*.db
+*.db-shm
+*.db-wal
+.env
+*.env
+*.log
+
+# Build output
+mac/build/
+
+.DS_Store
